@@ -10,6 +10,10 @@ All-in-One Docker image for [Chatterbox TTS](https://github.com/resemble-ai/chat
 
 ![Screenshot](screenshot.png)
 
+## 🎯 Model Family Overview
+
+![Architecture](architecture.jpg)
+
 ## ✨ Features
 
 - 🐳 **All-in-One Docker Image** - Models pre-downloaded, ready to run

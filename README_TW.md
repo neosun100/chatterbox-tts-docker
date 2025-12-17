@@ -10,6 +10,10 @@ Resemble AI [Chatterbox TTS](https://github.com/resemble-ai/chatterbox) 的 All-
 
 ![Screenshot](screenshot.png)
 
+## 🎯 模型家族概覽
+
+![Architecture](architecture.jpg)
+
 ## ✨ 功能特色
 
 - 🐳 **All-in-One 映像檔** - 模型預先下載，開箱即用
