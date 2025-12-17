@@ -47,3 +47,6 @@ temp/
 
 # HuggingFace cache
 .cache/
+
+# WeChat article (private)
+wechat_article.md
