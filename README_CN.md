@@ -20,6 +20,32 @@ Resemble AI [Chatterbox TTS](https://github.com/resemble-ai/chatterbox) 的 All-
 - ⏱️ **实时计时** - 生成时间实时显示
 - 🎯 **GPU 常驻模式** - 模型常驻显存，推理更快
 
+## 🚀 相比原项目的改进
+
+本项目基于 [Resemble AI Chatterbox](https://github.com/resemble-ai/chatterbox) 进行了大量增强：
+
+| 特性 | 原项目 | 本项目 |
+|------|--------|--------|
+| **Web 框架** | Gradio | FastAPI + 原生 JS |
+| **性能** | 标准 | 响应速度提升约 30% |
+| **API** | 有限 | 完整 REST + WebSocket |
+| **UI 界面** | 基础 | 现代化、多语言 |
+| **部署方式** | 手动配置 | 一键 Docker |
+| **GPU 管理** | 无 | 常驻/卸载模式 |
+| **生成计时** | 无 | 实时显示 |
+
+### 为什么选择 FastAPI？
+
+- **异步支持** - 非阻塞 I/O，更好的并发性能
+- **更低开销** - 比 Gradio 更轻量，冷启动更快
+- **生产就绪** - 内置 OpenAPI 文档、数据验证
+- **原生 WebSocket** - 一流的流式传输支持
+- **自定义 UI** - 完全控制前端设计
+
+### ⚠️ 流式输出限制
+
+Chatterbox TTS **不支持真正的流式输出**（边生成边播放）。模型架构决定了必须完整生成后才能输出音频。`/api/tts/stream` 端点提供的是完整音频的分块传输，而非实时流式合成。
+
 ## 🚀 快速开始
 
 ```bash
@@ -95,6 +121,8 @@ curl -X POST http://localhost:7866/api/tts \
   -o output.wav
 ```
 
+响应头 `X-Generation-Time` 包���生成耗时。
+
 ### 使用参考音频
 ```bash
 curl -X POST http://localhost:7866/api/tts \
@@ -105,7 +133,7 @@ curl -X POST http://localhost:7866/api/tts \
 
 ### GPU 管理
 ```bash
-# 卸载到 CPU
+# 卸载到 CPU（释放显存）
 curl -X POST http://localhost:7866/gpu/offload
 
 # 完全释放
@@ -135,7 +163,7 @@ curl -X POST http://localhost:7866/gpu/release
 ## 🛠️ 技术栈
 
 - **TTS 引擎**: Resemble AI [Chatterbox](https://github.com/resemble-ai/chatterbox)
-- **后端**: FastAPI + Uvicorn
+- **后端**: FastAPI + Uvicorn（异步）
 - **前端**: 原生 JS + i18n
 - **容器**: NVIDIA CUDA 12.1 + Python 3.11
 

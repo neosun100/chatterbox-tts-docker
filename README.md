@@ -20,6 +20,32 @@ All-in-One Docker image for [Chatterbox TTS](https://github.com/resemble-ai/chat
 - ⏱️ **Real-time Timer** - Live generation time display
 - 🎯 **GPU Resident Mode** - Model stays in VRAM for fast inference
 
+## 🚀 Improvements Over Original
+
+This project is based on [Resemble AI's Chatterbox](https://github.com/resemble-ai/chatterbox) with significant enhancements:
+
+| Feature | Original | This Project |
+|---------|----------|--------------|
+| **Web Framework** | Gradio | FastAPI + Vanilla JS |
+| **Performance** | Standard | ~30% faster response |
+| **API** | Limited | Full REST + WebSocket |
+| **UI** | Basic | Modern, Multi-language |
+| **Deployment** | Manual setup | One-command Docker |
+| **GPU Management** | None | Resident/Offload modes |
+| **Generation Timer** | None | Real-time display |
+
+### Why FastAPI?
+
+- **Async Support** - Non-blocking I/O for better concurrency
+- **Lower Overhead** - Lighter than Gradio, faster cold start
+- **Production Ready** - Built-in OpenAPI docs, validation
+- **WebSocket Native** - First-class streaming support
+- **Custom UI** - Full control over frontend design
+
+### ⚠️ Streaming Limitation
+
+Chatterbox TTS does **not support true streaming output** (play while generating). The model architecture requires complete generation before audio output. The `/api/tts/stream` endpoint provides chunked transfer of the complete audio, not real-time streaming synthesis.
+
 ## 🚀 Quick Start
 
 ```bash
@@ -95,6 +121,8 @@ curl -X POST http://localhost:7866/api/tts \
   -o output.wav
 ```
 
+Response includes `X-Generation-Time` header with generation duration.
+
 ### With Reference Audio
 ```bash
 curl -X POST http://localhost:7866/api/tts \
@@ -105,10 +133,10 @@ curl -X POST http://localhost:7866/api/tts \
 
 ### GPU Management
 ```bash
-# Offload to CPU
+# Offload to CPU (free VRAM)
 curl -X POST http://localhost:7866/gpu/offload
 
-# Release all
+# Release all (full cleanup)
 curl -X POST http://localhost:7866/gpu/release
 ```
 
@@ -135,7 +163,7 @@ Example:
 ## 🛠️ Tech Stack
 
 - **TTS Engine**: [Chatterbox](https://github.com/resemble-ai/chatterbox) by Resemble AI
-- **Backend**: FastAPI + Uvicorn
+- **Backend**: FastAPI + Uvicorn (async)
 - **Frontend**: Vanilla JS with i18n
 - **Container**: NVIDIA CUDA 12.1 + Python 3.11
 

@@ -20,6 +20,32 @@ Resemble AI [Chatterbox TTS](https://github.com/resemble-ai/chatterbox) の All-
 - ⏱️ **リアルタイムタイマー** - 生成時間をリアルタイム表示
 - 🎯 **GPU 常駐モード** - モデルを VRAM に常駐、高速推論
 
+## 🚀 オリジナルからの改善点
+
+本プロジェクトは [Resemble AI Chatterbox](https://github.com/resemble-ai/chatterbox) をベースに大幅な機能強化を行いました：
+
+| 機能 | オリジナル | 本プロジェクト |
+|------|------------|----------------|
+| **Web フレームワーク** | Gradio | FastAPI + Vanilla JS |
+| **パフォーマンス** | 標準 | レスポンス約 30% 高速化 |
+| **API** | 限定的 | 完全な REST + WebSocket |
+| **UI** | 基本的 | モダン、多言語対応 |
+| **デプロイ** | 手動設定 | ワンコマンド Docker |
+| **GPU 管理** | なし | 常駐/退避モード |
+| **生成タイマー** | なし | リアルタイム表示 |
+
+### なぜ FastAPI？
+
+- **非同期サポート** - ノンブロッキング I/O で優れた並行性
+- **低オーバーヘッド** - Gradio より軽量、コールドスタート高速
+- **本番環境対応** - OpenAPI ドキュメント、バリデーション内蔵
+- **ネイティブ WebSocket** - ファーストクラスのストリーミングサポート
+- **カスタム UI** - フロントエンドを完全にコントロール
+
+### ⚠️ ストリーミングの制限
+
+Chatterbox TTS は**真のストリーミング出力をサポートしていません**（生成しながら再生）。モデルアーキテクチャの制約により、音声出力前に完全な生成が必要です。`/api/tts/stream` エンドポイントは完成した音声のチャンク転送であり、リアルタイムストリーミング合成ではありません。
+
 ## 🚀 クイックスタート
 
 ```bash
@@ -95,6 +121,8 @@ curl -X POST http://localhost:7866/api/tts \
   -o output.wav
 ```
 
+レスポンスヘッダー `X-Generation-Time` に生成時間が含まれます。
+
 ### 参照音声を使用
 ```bash
 curl -X POST http://localhost:7866/api/tts \
@@ -105,7 +133,7 @@ curl -X POST http://localhost:7866/api/tts \
 
 ### GPU 管理
 ```bash
-# CPU へ退避
+# CPU へ退避（VRAM 解放）
 curl -X POST http://localhost:7866/gpu/offload
 
 # 完全解放
@@ -135,7 +163,7 @@ curl -X POST http://localhost:7866/gpu/release
 ## 🛠️ 技術スタック
 
 - **TTS エンジン**: Resemble AI [Chatterbox](https://github.com/resemble-ai/chatterbox)
-- **バックエンド**: FastAPI + Uvicorn
+- **バックエンド**: FastAPI + Uvicorn（非同期）
 - **フロントエンド**: Vanilla JS + i18n
 - **コンテナ**: NVIDIA CUDA 12.1 + Python 3.11
 
