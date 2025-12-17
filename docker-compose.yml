@@ -1,0 +1,18 @@
+services:
+  chatterbox:
+    image: neosun/chatterbox-tts:latest
+    container_name: chatterbox-tts
+    ports:
+      - "0.0.0.0:7866:7866"
+    environment:
+      - CUDA_VISIBLE_DEVICES=1
+      - PORT=7866
+      - MODEL_TYPE=turbo
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["1"]
+              capabilities: [gpu]
