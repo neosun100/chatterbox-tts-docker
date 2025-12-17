@@ -8,6 +8,8 @@
 
 Resemble AI [Chatterbox TTS](https://github.com/resemble-ai/chatterbox) の All-in-One Docker イメージ。Web UI、REST API、WebSocket をサポートし、GPU メモリ管理機能を内蔵。
 
+![Screenshot](screenshot.png)
+
 ## ✨ 機能
 
 - 🐳 **All-in-One イメージ** - モデル事前ダウンロード済み、すぐに使用可能

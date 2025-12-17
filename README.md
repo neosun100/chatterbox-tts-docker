@@ -8,6 +8,8 @@
 
 All-in-One Docker image for [Chatterbox TTS](https://github.com/resemble-ai/chatterbox) by Resemble AI. Features Web UI, REST API, and WebSocket support with GPU memory management.
 
+![Screenshot](screenshot.png)
+
 ## ✨ Features
 
 - 🐳 **All-in-One Docker Image** - Models pre-downloaded, ready to run
